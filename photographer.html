@@ -15,6 +15,21 @@
       <div class="photograph-header">
         <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
       </div>
+      <div class="filter-div">
+        <label for="filter">Trier par</label>
+        <select name="filter" id="filter">
+          <option value="Pop">Popularité</option>
+          <option value="Date">Date</option>
+          <option value="Title">Titre</option>
+        </select>
+      </div>
+      <div id="media_modal">
+        <img src="assets/images/flecheGauche.svg" class="fleche">
+        <img class="imgItem mediaItem" src="">
+        <video class="videoItem mediaItem" src=""></video>
+        <img src="assets/images/flecheDroite.svg" class="fleche">
+        <img src="assets/images/close_MediaModal.svg" class="close_MediaModal" onclick="closeMediaModal()">
+      </div>
     </main>
     <div id="contact_modal">
 			<div class="modal">
@@ -31,6 +46,10 @@
 				</form>
 			</div>
 		</div>
+    <script src="scripts/utils/fetchPhotographer.js"></script>
+    <script src="scripts/utils/mediaModal.js"></script>
+    <script src="scripts/utils/fetchPhotos.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
+    <script src="scripts/pages/photographer.js"></script>
   </body>
 </html>
