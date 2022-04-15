@@ -1,5 +1,5 @@
 let photosIdLiked = [];
-function getPhotographerIdInParams(){
+function getPhotographerIdInParams() {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     const id = params.get("id");
@@ -8,12 +8,12 @@ function getPhotographerIdInParams(){
 
 function photographerPage(photographer) {
     function getUserCardDOM() {
-        const article = document.createElement( 'article' );
-        const h2 = document.createElement( 'h2' );
+        const article = document.createElement('article');
+        const h2 = document.createElement('h2');
         h2.textContent = photographer.name;
-        const h3 = document.createElement( 'h3' );
-        h3.textContent = photographer.city+", "+photographer.country;
-        const p = document.createElement( 'p' );
+        const h3 = document.createElement('h3');
+        h3.textContent = photographer.city + ", " + photographer.country;
+        const p = document.createElement('p');
         p.textContent = photographer.tagline;
         article.appendChild(h2);
         article.appendChild(h3);
@@ -22,31 +22,31 @@ function photographerPage(photographer) {
     }
     const picture = `assets/photographers/${photographer.portrait}`;
 
-    function handlePhotoLike(id, count, $element){
-        if (photosIdLiked.includes(id)){
+    function handlePhotoLike(id, count, $element) {
+        if (photosIdLiked.includes(id)) {
             const index = photosIdLiked.indexOf(id);
             if (index > -1) {
-                    photosIdLiked.splice(index, 1);
-                    $element.textContent = `${parseInt(count)} ♥`
+                photosIdLiked.splice(index, 1);
+                $element.textContent = `${parseInt(count)} ♥`
             }
-        }else {
+        } else {
             photosIdLiked.push(id);
             console.log(photosIdLiked);
-            $element.textContent = `${parseInt(count)+1} ♥`
+            $element.textContent = `${parseInt(count) + 1} ♥`
         }
-        getUserTotalLikes(photographer.id, photosIdLiked.length )
+        updateUserTotalLikes(photographer.id, photosIdLiked.length)
     }
 
     function getUserProfilPic() {
-        const img = document.createElement( 'img' );
+        const img = document.createElement('img');
         img.setAttribute("src", picture);
         return img;
     }
 
-    function getUserPictures(photos){
+
+    function getUserPictures(photos) {
 
         const grid = document.createElement('div');
-        grid.classList.add("photo-grid");
         photos.forEach(photo => {
             const gridItem = document.createElement('div');
             const itemInfos = document.createElement('div');
@@ -54,18 +54,23 @@ function photographerPage(photographer) {
             itemTitle.textContent = photo.title;
             const itemLikes = document.createElement('button');
             itemLikes.setAttribute("type", "button");
-            itemLikes.addEventListener("click", (event)=>handlePhotoLike(photo.id, photo.likes, event.target));
-            itemLikes.textContent = `${photo.likes} ♥`;
-            if (!!photo.video){
+            itemLikes.addEventListener("click", (event) => handlePhotoLike(photo.id, photo.likes, event.target));
+            if (photosIdLiked.includes(photo.id)) {
+                itemLikes.textContent = `${parseInt(photo.likes)+1} ♥`;
+            }
+            else{
+                itemLikes.textContent = `${photo.likes} ♥`;
+            }
+            if (!!photo.video) {
                 const itemVideo = document.createElement('video');
                 itemVideo.setAttribute("src", `assets/media/${photo.video}`);
-                itemVideo.addEventListener("click", ()=>displayVideoModal(`assets/media/${photo.video}`));
+                itemVideo.addEventListener("click", () => displayVideoModal(`assets/media/${photo.video}`));
                 gridItem.appendChild(itemVideo);
             }
-            if (!!photo.image){
+            if (!!photo.image) {
                 const itemPhoto = document.createElement('img');
                 itemPhoto.setAttribute("src", `assets/media/${photo.image}`);
-                itemPhoto.addEventListener("click", ()=>displayPhotoModal(`assets/media/${photo.image}`));
+                itemPhoto.addEventListener("click", () => displayPhotoModal(`assets/media/${photo.image}`));
                 gridItem.appendChild(itemPhoto);
             }
             itemInfos.appendChild(itemTitle);
@@ -75,7 +80,7 @@ function photographerPage(photographer) {
         });
         return grid;
     }
-    function createPhotographerStats(){
+    function createPhotographerStats() {
         const divTotalLikes = document.createElement('div');
         divTotalLikes.classList.add("total-likes");
         const spanNbLikes = document.createElement('span');
@@ -87,15 +92,30 @@ function photographerPage(photographer) {
         return divTotalLikes;
     }
 
-    async function getUserTotalLikes(id,sum=0){
-            const spanNbLikes = document.getElementById("total-likes");
-            if(spanNbLikes){
-                const totalLikes = await getNbLikesByPhotographerId(id);
-                spanNbLikes.textContent = `${parseInt(totalLikes)+sum} ♥`;
-            }
+    async function updateUserTotalLikes(id, sum = 0) {
+        const spanNbLikes = document.getElementById("total-likes");
+        if (spanNbLikes) {
+            const totalLikes = await getNbLikesByPhotographerId(id);
+            spanNbLikes.textContent = `${parseInt(totalLikes) + sum} ♥`;
+        }
     }
 
-    return { getUserCardDOM, getUserProfilPic, getUserPictures, getUserTotalLikes, createPhotographerStats }
+    return { getUserCardDOM, getUserProfilPic, getUserPictures, updateUserTotalLikes, createPhotographerStats }
+}
+
+async function createPhotographerPictures(photographerId,photographerModel){
+    const photos = await getPhotoByPhotographerId(photographerId);
+    const main = document.querySelector("main");
+    const photoGrid = photographerModel.getUserPictures(photos);
+    photoGrid.classList.add("photo-grid");
+    const oldGrid = document.querySelector(".photo-grid");
+    if(oldGrid){
+        main.replaceChild(photoGrid, oldGrid);
+    }
+    else{
+        main.append(photoGrid);
+    }
+    await photographerModel.updateUserTotalLikes(photographerId);
 }
 
 async function init() {
@@ -105,20 +125,22 @@ async function init() {
     const id = getPhotographerIdInParams();
     const photographer = await getPhotographerById(id);
 
-    const photographerModel =  photographerPage(photographer);
+    const photographerModel = photographerPage(photographer);
     const userCardDOM = photographerModel.getUserCardDOM();
     parentDiv.insertBefore(userCardDOM, buttonC);
     const userPic = photographerModel.getUserProfilPic();
     photographHeader.appendChild(userPic);
 
-    const photos=await getPhotoByPhotographerId(photographer.id);
-    const main = document.querySelector("main");
-    const photoGrid = photographerModel.getUserPictures(photos);
-    main.append(photoGrid);
-
     const photographerStats = photographerModel.createPhotographerStats();
     main.append(photographerStats);
-    await photographerModel.getUserTotalLikes(photographer.id);
+
+    const filter= document.getElementById("filter");
+    filter.addEventListener("change", function(){
+        createPhotographerPictures(photographer.id, photographerModel);
+    });
+
+    await createPhotographerPictures(photographer.id, photographerModel);
+
 };
 
 init();
