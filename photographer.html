@@ -9,7 +9,7 @@
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+      <a href="/"><img src="assets/images/logo.png" class="logo" /></a>
     </header>
     <main id="main">
       <div class="photograph-header">
@@ -23,12 +23,12 @@
           <option value="title">Titre</option>
         </select>
       </div>
-      <div id="media_modal">
-        <img src="assets/images/flecheGauche.svg" class="fleche">
-        <img class="imgItem mediaItem" src="">
+      <div id="media_modal" aria-label="image closeup view" aria-hidden="true" role="dialog">
+        <img src="assets/images/flecheGauche.svg" aria-label="previous image" class="fleche" id="previousButton">
+        <img class="imgItem mediaItem" aria-label="" src="">
         <video class="videoItem mediaItem" src=""></video>
-        <img src="assets/images/flecheDroite.svg" class="fleche">
-        <img src="assets/images/close_MediaModal.svg" class="close_MediaModal" onclick="closeMediaModal()">
+        <img src="assets/images/flecheDroite.svg" aria-label="next image" class="fleche" id="nextButton">
+        <img src="assets/images/close_MediaModal.svg" aria-label="close dialog" class="close_MediaModal" onclick="closeMediaModal()">
       </div>
     </main>
     <div id="contact_modal">
@@ -37,10 +37,16 @@
           <h2>Contactez-moi</h2>
           <img src="assets/icons/close.svg" onclick="closeModal()" />
         </header>
-				<form>
+				<form id="contact-form" name="contact-form" method="POST" aria-hidden="true" role="dialog">
 					<div>
-						<label>Prénom</label>
-						<input />
+						<label for="firstname">Votre prénom</label>
+            <input type="text" id="firstname" name="firstname">
+            <label for="name">Votre nom</label>
+            <input type="text" id="name" name="lastname">
+            <label for="email">Votre adresse mail</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Votre message</label>
+            <textarea name="message" id="message" required></textarea>
 					</div>
           <button class="contact_button">Envoyer</button>
 				</form>

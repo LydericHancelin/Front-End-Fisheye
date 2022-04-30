@@ -127,10 +127,12 @@ form input {
 #media_modal .fleche{
     width: 30px;
     height: 48px;
+    cursor: pointer;
 }
 
 #media_modal .close_MediaModal{
     position: absolute;
     top: 3rem;
     right: 3rem;
+    cursor: pointer;
 }

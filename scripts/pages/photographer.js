@@ -1,4 +1,5 @@
 let photosIdLiked = [];
+let currentPhotos = [];
 function getPhotographerIdInParams() {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
@@ -40,6 +41,7 @@ function photographerPage(photographer) {
     function getUserProfilPic() {
         const img = document.createElement('img');
         img.setAttribute("src", picture);
+        img.setAttribute("alt", photographer.name);
         return img;
     }
 
@@ -57,6 +59,7 @@ function photographerPage(photographer) {
             itemLikes.addEventListener("click", (event) => handlePhotoLike(photo.id, photo.likes, event.target));
             if (photosIdLiked.includes(photo.id)) {
                 itemLikes.textContent = `${parseInt(photo.likes)+1} ♥`;
+                document.write(itemLikes.fontcolor("black"));
             }
             else{
                 itemLikes.textContent = `${photo.likes} ♥`;
@@ -70,6 +73,8 @@ function photographerPage(photographer) {
             if (!!photo.image) {
                 const itemPhoto = document.createElement('img');
                 itemPhoto.setAttribute("src", `assets/media/${photo.image}`);
+                itemPhoto.setAttribute("aria-label", photo.title);
+                itemPhoto.setAttribute("alt", photo.title);
                 itemPhoto.addEventListener("click", () => displayPhotoModal(`assets/media/${photo.image}`));
                 gridItem.appendChild(itemPhoto);
             }
@@ -105,6 +110,7 @@ function photographerPage(photographer) {
 
 async function createPhotographerPictures(photographerId,photographerModel){
     const photos = await getPhotoByPhotographerId(photographerId);
+    currentPhotos = photos;
     const main = document.querySelector("main");
     const photoGrid = photographerModel.getUserPictures(photos);
     photoGrid.classList.add("photo-grid");
