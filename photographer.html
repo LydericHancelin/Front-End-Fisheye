@@ -24,18 +24,17 @@
         </select>
       </div>
       <div id="media_modal" aria-label="image closeup view" aria-hidden="true" role="dialog">
-        <img src="assets/images/flecheGauche.svg" aria-label="previous image" class="fleche" id="previousButton">
+        <button type="button" aria-label="previous image"><img src="assets/images/flecheGauche.svg" class="fleche" id="previousButton"></button>
         <img class="imgItem mediaItem" aria-label="" src="">
         <video class="videoItem mediaItem" src=""></video>
-        <img src="assets/images/flecheDroite.svg" aria-label="next image" class="fleche" id="nextButton">
-        <img src="assets/images/close_MediaModal.svg" aria-label="close dialog" class="close_MediaModal" onclick="closeMediaModal()">
+        <button type="button" aria-label="next image"><img src="assets/images/flecheDroite.svg" class="fleche" id="nextButton"></button>
+        <button type="button" class="close_MediaModal" aria-label="close dialog"><img src="assets/images/close_MediaModal.svg"  onclick="closeMediaModal()"></button>
       </div>
     </main>
     <div id="contact_modal">
-			<div class="modal">
 				<header>
           <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <button type="button"><img src="assets/icons/close.svg" onclick="closeModal()" /></button>
         </header>
 				<form id="contact-form" name="contact-form" method="POST" aria-hidden="true" role="dialog">
 					<div>
@@ -48,9 +47,8 @@
             <label for="message">Votre message</label>
             <textarea name="message" id="message" required></textarea>
 					</div>
-          <button class="contact_button">Envoyer</button>
+          <button class="contact_button" type="submit" aria-label="submit informations">Envoyer</button>
 				</form>
-			</div>
 		</div>
     <script src="scripts/utils/fetchPhotographer.js"></script>
     <script src="scripts/utils/mediaModal.js"></script>

@@ -144,21 +144,86 @@ h1 {
     font-weight: bold;
 }
 
-.total-likes button{
+button{
     background-color: white;
     border: none;
 }
-.modal{
+
+#contact_modal{
+    display: none;
     position: absolute;
     transform: translate(-50%);
     top: 5%;
     left: 50%;
 }
-.modal textarea{
+#contact_modal {
+    border-radius: 5px;
+    background-color: #DB8876;
+    height: 80vh;
+    width: 50%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 1rem;
+    margin: auto;
+}
+#contact_modal header {
+    justify-content: space-between;
     width: 100%;
-    height: 136px;
+}
+
+#contact_modal header img {
+    cursor: pointer;
+}
+
+#contact_modal header h2 {
+    font-size: 3rem;
+    font-weight: normal;
+    text-align: center;
+}
+#contact_modal textarea{
+    width: 100%;
+    height: 5rem;
     border: none;
     border-radius: 5px;
+}
+#contact_modal label{
+    font-size : 1.25rem;
+}
+#contact_modal button{
+    background-color: #DB8876;
+}
+#contact_modal .contact_button{
+    background-color:#901C1C;
+}
+form {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+form label {
+    color: #312E2E;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: self-start;
+    margin-bottom: 26px;
+}
+
+form input {
+    width: 100%;
+    height: 2rem;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    padding: .5rem;
+    box-sizing: border-box;
 }
 
 
