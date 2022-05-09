@@ -80,6 +80,7 @@
     cursor: pointer;
 }
 
-#media_modal .nextButton, .previousButton{
-    display: none;
+#media_modal .hidden{
+    opacity: 0;
+    pointer-events: none;
 }

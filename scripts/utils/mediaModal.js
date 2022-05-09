@@ -2,7 +2,8 @@ const img = document.querySelector(".imgItem");
 const video = document.querySelector(".videoItem");
 const modal = document.getElementById("media_modal");
 const nextButton = document.getElementById("nextButton");
-const previousButton = document.getElementById("previousButton"); 
+const previousButton = document.getElementById("previousButton");
+const closeButton = document.getElementById("closeButton");
 const body = document.body;
 
 
@@ -26,6 +27,7 @@ function closeMediaModal() {
     document.body.style.overflow = "auto";
     modal.style.display = "none";
 }
+closeButton.addEventListener("click", closeMediaModal);
 
 function updateModal(src) {
     const index = currentPhotos.findIndex(photo => {
@@ -43,21 +45,19 @@ function updateModal(src) {
         video.setAttribute("controls", false);
         video.setAttribute("src", src);
     }
-    
-    if(currentPhotos[index+1]){
-        nextButton.style.display="block";
-    }
-    if(currentPhotos[index-1]){
-        previousButton.style.display="block";
-    }
-    if(!currentPhotos[index+1]){
-        nextButton.style.display="none";
-    }
-    if(!currentPhotos[index-1]){
-        previousButton.style.display="none";
-    }
+    nextButton.classList.remove("hidden");
+    previousButton.classList.remove("hidden");
     nextButton.onclick = function(){ updateModal(`assets/media/${nextSrc}`)};
     previousButton.onclick = function(){ updateModal(`assets/media/${previousSrc}`)};
+    if(!currentPhotos[index+1]){
+        nextButton.classList.add("hidden");
+        nextButton.onclick=undefined;
+    }
+    if(!currentPhotos[index-1]){
+        previousButton.classList.add("hidden");
+        previousButton.onclick=undefined;
+    }
+
 }
 
 function getPreviousAndNextSources(index){
@@ -73,5 +73,5 @@ function getPreviousAndNextSources(index){
 }
 
 function isPhoto(photo){
-    return !!photo.image 
+    return !!photo.image
 }
