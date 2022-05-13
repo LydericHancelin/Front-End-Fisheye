@@ -1,12 +1,17 @@
 let photosIdLiked = [];
-let currentPhotos = [];
+let currentMedias = [];
 function getPhotographerIdInParams() {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     const id = params.get("id");
     return parseInt(id);
 }
-
+function createMediaObject(media){
+    if (!!media.video) {
+        return new Video(media)
+    }
+    return new Image(media)
+}
 function photographerPage(photographer) {
     function getUserCardDOM() {
         const article = document.createElement('article');
@@ -32,7 +37,6 @@ function photographerPage(photographer) {
             }
         } else {
             photosIdLiked.push(id);
-            console.log(photosIdLiked);
             $element.textContent = `${parseInt(count) + 1} ♥`
         }
         updateUserTotalLikes(photographer.id, photosIdLiked.length)
@@ -64,20 +68,8 @@ function photographerPage(photographer) {
             else{
                 itemLikes.textContent = `${photo.likes} ♥`;
             }
-            if (!!photo.video) {
-                const itemVideo = document.createElement('video');
-                itemVideo.setAttribute("src", `assets/media/${photo.video}`);
-                itemVideo.addEventListener("click", () => displayVideoModal(`assets/media/${photo.video}`));
-                gridItem.appendChild(itemVideo);
-            }
-            if (!!photo.image) {
-                const itemPhoto = document.createElement('img');
-                itemPhoto.setAttribute("src", `assets/media/${photo.image}`);
-                itemPhoto.setAttribute("aria-label", photo.title);
-                itemPhoto.setAttribute("alt", photo.title);
-                itemPhoto.addEventListener("click", () => displayPhotoModal(`assets/media/${photo.image}`));
-                gridItem.appendChild(itemPhoto);
-            }
+            const media = createMediaObject(photo);
+            gridItem.appendChild(media.createHtml());
             itemInfos.appendChild(itemTitle);
             itemInfos.appendChild(itemLikes);
             gridItem.appendChild(itemInfos);
@@ -110,7 +102,7 @@ function photographerPage(photographer) {
 
 async function createPhotographerPictures(photographerId,photographerModel){
     const photos = await getPhotoByPhotographerId(photographerId);
-    currentPhotos = photos;
+    currentMedias = photos.map((photo)=>{return createMediaObject(photo)});
     const main = document.querySelector("main");
     const photoGrid = photographerModel.getUserPictures(photos);
     photoGrid.classList.add("photo-grid");
