@@ -1,4 +1,7 @@
 const main = document.getElementById("main");
+const buttonOpenModal = document.getElementById("contact_modal_open");
+const buttonCloseModal = document.getElementById("contact_modal_close");
+
 function displayModal() {
     const modal = document.getElementById("contact_modal");
 	modal.style.display = "flex";
@@ -11,7 +14,8 @@ function closeModal() {
     main.style.display="block";
 }
 
-
+buttonOpenModal.addEventListener("click", displayModal);
+buttonCloseModal.addEventListener("click", closeModal);
 
 const sendContact = (event) => {
     event.preventDefault();

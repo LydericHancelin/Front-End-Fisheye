@@ -1,5 +1,6 @@
 let photosIdLiked = [];
 let currentMedias = [];
+
 function getPhotographerIdInParams() {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
@@ -34,10 +35,14 @@ function photographerPage(photographer) {
             if (index > -1) {
                 photosIdLiked.splice(index, 1);
                 $element.textContent = `${parseInt(count)} ♥`
+                $element.className = '';
+                $element.classList.add("disliked");
             }
         } else {
             photosIdLiked.push(id);
             $element.textContent = `${parseInt(count) + 1} ♥`
+            $element.className = '';
+            $element.classList.add("liked");
         }
         updateUserTotalLikes(photographer.id, photosIdLiked.length)
     }
@@ -63,7 +68,6 @@ function photographerPage(photographer) {
             itemLikes.addEventListener("click", (event) => handlePhotoLike(photo.id, photo.likes, event.target));
             if (photosIdLiked.includes(photo.id)) {
                 itemLikes.textContent = `${parseInt(photo.likes)+1} ♥`;
-                document.write(itemLikes.fontcolor("black"));
             }
             else{
                 itemLikes.textContent = `${photo.likes} ♥`;
@@ -77,6 +81,7 @@ function photographerPage(photographer) {
         });
         return grid;
     }
+
     function createPhotographerStats() {
         const divTotalLikes = document.createElement('div');
         divTotalLikes.classList.add("total-likes");

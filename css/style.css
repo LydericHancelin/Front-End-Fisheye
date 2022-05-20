@@ -115,6 +115,12 @@ h1 {
     font-size: 1rem;
     cursor: pointer;
 }
+.photo-grid > div > div .liked{
+    color: red;
+}
+.photo-grid > div > div .disliked{
+    color: #901C1C;
+}
 .photo-grid h3{
     margin: 0;
         font-size: 1rem;
