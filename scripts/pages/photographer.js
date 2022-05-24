@@ -1,11 +1,18 @@
 let photosIdLiked = [];
+let currentMedias = [];
+
 function getPhotographerIdInParams() {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     const id = params.get("id");
     return parseInt(id);
 }
-
+function createMediaObject(media){
+    if (!!media.video) {
+        return new Video(media)
+    }
+    return new Image(media)
+}
 function photographerPage(photographer) {
     function getUserCardDOM() {
         const article = document.createElement('article');
@@ -28,11 +35,14 @@ function photographerPage(photographer) {
             if (index > -1) {
                 photosIdLiked.splice(index, 1);
                 $element.textContent = `${parseInt(count)} ♥`
+                $element.className = '';
+                $element.classList.add("disliked");
             }
         } else {
             photosIdLiked.push(id);
-            console.log(photosIdLiked);
             $element.textContent = `${parseInt(count) + 1} ♥`
+            $element.className = '';
+            $element.classList.add("liked");
         }
         updateUserTotalLikes(photographer.id, photosIdLiked.length)
     }
@@ -40,6 +50,7 @@ function photographerPage(photographer) {
     function getUserProfilPic() {
         const img = document.createElement('img');
         img.setAttribute("src", picture);
+        img.setAttribute("alt", photographer.name);
         return img;
     }
 
@@ -61,18 +72,8 @@ function photographerPage(photographer) {
             else{
                 itemLikes.textContent = `${photo.likes} ♥`;
             }
-            if (!!photo.video) {
-                const itemVideo = document.createElement('video');
-                itemVideo.setAttribute("src", `assets/media/${photo.video}`);
-                itemVideo.addEventListener("click", () => displayVideoModal(`assets/media/${photo.video}`));
-                gridItem.appendChild(itemVideo);
-            }
-            if (!!photo.image) {
-                const itemPhoto = document.createElement('img');
-                itemPhoto.setAttribute("src", `assets/media/${photo.image}`);
-                itemPhoto.addEventListener("click", () => displayPhotoModal(`assets/media/${photo.image}`));
-                gridItem.appendChild(itemPhoto);
-            }
+            const media = createMediaObject(photo);
+            gridItem.appendChild(media.createHtml());
             itemInfos.appendChild(itemTitle);
             itemInfos.appendChild(itemLikes);
             gridItem.appendChild(itemInfos);
@@ -80,6 +81,7 @@ function photographerPage(photographer) {
         });
         return grid;
     }
+
     function createPhotographerStats() {
         const divTotalLikes = document.createElement('div');
         divTotalLikes.classList.add("total-likes");
@@ -105,6 +107,7 @@ function photographerPage(photographer) {
 
 async function createPhotographerPictures(photographerId,photographerModel){
     const photos = await getPhotoByPhotographerId(photographerId);
+    currentMedias = photos.map((photo)=>{return createMediaObject(photo)});
     const main = document.querySelector("main");
     const photoGrid = photographerModel.getUserPictures(photos);
     photoGrid.classList.add("photo-grid");

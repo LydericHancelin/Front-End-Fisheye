@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fra">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
@@ -9,11 +9,11 @@
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+      <a href="/" title="Lien vers la page d'accueil"><img src="assets/images/logo.png" class="logo" alt="Logo"/></a>
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <button id="contact_modal_open" class="contact_button">Contactez-moi</button>
       </div>
       <div class="filter-div">
         <label for="filter">Trier par</label>
@@ -23,33 +23,38 @@
           <option value="title">Titre</option>
         </select>
       </div>
-      <div id="media_modal">
-        <img src="assets/images/flecheGauche.svg" class="fleche">
-        <img class="imgItem mediaItem" src="">
+      <div id="media_modal" aria-label="Image dans la lightbox" aria-hidden="true" role="dialog">
+        <button type="button" aria-label="Image précédente" id="previousButton"><img src="assets/images/flecheGauche.svg" class="fleche" alt=""></button>
+        <img class="imgItem mediaItem" src="" alt="">
         <video class="videoItem mediaItem" src=""></video>
-        <img src="assets/images/flecheDroite.svg" class="fleche">
-        <img src="assets/images/close_MediaModal.svg" class="close_MediaModal" onclick="closeMediaModal()">
+        <button type="button" aria-label="Image suivante" id="nextButton"><img src="assets/images/flecheDroite.svg" class="fleche" alt=""></button>
+        <button type="button" class="close_MediaModal" aria-label="Fermer la lightbox" id="closeButton"><img src="assets/images/close_MediaModal.svg" alt=""></button>
       </div>
     </main>
     <div id="contact_modal">
-			<div class="modal">
 				<header>
           <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <button id="contact_modal_close" type="button" aria-label="Fermer la modale"><img src="assets/icons/close.svg" alt=""/></button>
         </header>
-				<form>
+				<form id="contact-form" name="contact-form" method="POST" aria-hidden="true" role="dialog">
 					<div>
-						<label>Prénom</label>
-						<input />
+						<label for="firstname">Votre prénom</label>
+            <input type="text" id="firstname" name="firstname">
+            <label for="name">Votre nom</label>
+            <input type="text" id="name" name="lastname">
+            <label for="email">Votre adresse mail</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Votre message</label>
+            <textarea name="message" id="message" required></textarea>
 					</div>
-          <button class="contact_button">Envoyer</button>
+          <button class="contact_button" type="submit">Envoyer</button>
 				</form>
-			</div>
 		</div>
     <script src="scripts/utils/fetchPhotographer.js"></script>
+    <script src="scripts/factories/media.js"></script>
+    <script src="scripts/pages/photographer.js"></script>
     <script src="scripts/utils/mediaModal.js"></script>
     <script src="scripts/utils/fetchPhotos.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
-    <script src="scripts/pages/photographer.js"></script>
   </body>
 </html>

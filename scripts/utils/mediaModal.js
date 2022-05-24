@@ -1,26 +1,15 @@
-const img = document.querySelector(".imgItem");
-const video = document.querySelector(".videoItem");
 const modal = document.getElementById("media_modal");
+const closeButton = document.getElementById("closeButton");
 const body = document.body;
 
-function displayPhotoModal(mediaLink) {
+function openMediaModal(media) {
     body.style.overflow = "hidden";
-    img.style.display="block";
-    video.style.display="none";
-    img.setAttribute("src", mediaLink);
-	modal.style.display = "flex";
+    modal.style.display = "flex";
+    media.displayContent(currentMedias);
 }
-
-function displayVideoModal(mediaLink) {
-    body.style.overflow = "hidden";
-    video.style.display="block";
-    img.style.display="none";
-    video.setAttribute("src", mediaLink);
-    video.setAttribute("controls", false);
-	modal.style.display = "flex";
-}
-
 function closeMediaModal() {
-    document.body.style.overflow = "auto";
+    body.style.overflow = "auto";
     modal.style.display = "none";
 }
+
+closeButton.addEventListener("click", closeMediaModal);
