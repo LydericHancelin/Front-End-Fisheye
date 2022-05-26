@@ -62,7 +62,6 @@ function photographerPage (photographer) {
     const grid = document.createElement('div')
     photos.forEach(photo => {
       const gridItem = document.createElement('div')
-      gridItem.setAttribute('tabindex', 0)
       const itemInfos = document.createElement('div')
       const itemTitle = document.createElement('h3')
       itemTitle.textContent = photo.title
@@ -75,7 +74,9 @@ function photographerPage (photographer) {
         itemLikes.textContent = `${photo.likes} ♥`
       }
       const media = createMediaObject(photo)
-      gridItem.appendChild(media.createHtml())
+      const mediaHtml = media.createHtml()
+      mediaHtml.setAttribute('tabindex', '0')
+      gridItem.appendChild(mediaHtml)
       itemInfos.appendChild(itemTitle)
       itemInfos.appendChild(itemLikes)
       gridItem.appendChild(itemInfos)
