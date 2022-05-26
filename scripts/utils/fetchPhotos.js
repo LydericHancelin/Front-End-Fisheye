@@ -1,48 +1,48 @@
-async function getPhotos() {
-    // Penser à remplacer par les données récupérées dans le json
-    const response = await fetch("/data/photographers.json");
-    if (!response.ok){
-        return [];
-    }
+/* eslint-disable no-unused-vars */
+async function getPhotos () {
+  // Penser à remplacer par les données récupérées dans le json
+  const response = await fetch('/data/photographers.json')
+  if (!response.ok) {
+    return []
+  }
 
-    const body = await response.json();
-    const photos = body.media;
-    // et bien retourner le tableau photographers seulement une fois
-    return photos;
+  const body = await response.json()
+  const photos = body.media
+  // et bien retourner le tableau photographers seulement une fois
+  return photos
 }
 
-async function getPhotoById(id) {
-    const photos = await getPhotos();
-    const found = photos.find(element =>{
-        return element.id === id;
-    });
-    return found;
+async function getPhotoById (id) {
+  const photos = await getPhotos()
+  const found = photos.find(element => {
+    return element.id === id
+  })
+  return found
 }
 
-async function getPhotoByPhotographerId(id){
-    const photos = await getPhotos();
-    const found = photos.filter(element => element.photographerId === id);
-    if (getSelectedFilter() === "likes"){
-        found.sort((a, b) => b.likes - a.likes);
-    }
-    if (getSelectedFilter() === "date") {
-        found.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }
-    if (getSelectedFilter() === "title"){
-        found.sort((a, b) => a.title.localeCompare(b.title));
-    }
-    return found;
+async function getPhotoByPhotographerId (id) {
+  const photos = await getPhotos()
+  const found = photos.filter(element => element.photographerId === id)
+  if (getSelectedFilter() === 'likes') {
+    found.sort((a, b) => b.likes - a.likes)
+  }
+  if (getSelectedFilter() === 'date') {
+    found.sort((a, b) => new Date(b.date) - new Date(a.date))
+  }
+  if (getSelectedFilter() === 'title') {
+    found.sort((a, b) => a.title.localeCompare(b.title))
+  }
+  return found
 }
 
-async function getNbLikesByPhotographerId(id){
-    const found = await getPhotoByPhotographerId(id);
-    const totalLikes = found.reduce((acc,photos)=>acc+photos.likes,0);
-    return totalLikes;
+async function getNbLikesByPhotographerId (id) {
+  const found = await getPhotoByPhotographerId(id)
+  const totalLikes = found.reduce((acc, photos) => acc + photos.likes, 0)
+  return totalLikes
 }
 
-function getSelectedFilter(){
-    const selectElmt = document.getElementById("filter");
-    const valeurselectionnee = selectElmt.options[selectElmt.selectedIndex].value;
-    return valeurselectionnee;
+function getSelectedFilter () {
+  const selectElmt = document.getElementById('filter')
+  const valeurselectionnee = selectElmt.options[selectElmt.selectedIndex].value
+  return valeurselectionnee
 }
-

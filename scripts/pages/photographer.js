@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const photosIdLiked = []
+let currentMedias = []
 
 function getPhotographerIdInParams () {
   const url = new URL(window.location.href)
@@ -60,6 +62,7 @@ function photographerPage (photographer) {
     const grid = document.createElement('div')
     photos.forEach(photo => {
       const gridItem = document.createElement('div')
+      gridItem.setAttribute('tabindex', 0)
       const itemInfos = document.createElement('div')
       const itemTitle = document.createElement('h3')
       itemTitle.textContent = photo.title
