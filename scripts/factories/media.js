@@ -50,7 +50,12 @@ class Image extends Media {
     itemPhoto.setAttribute('aria-label', this.title)
     itemPhoto.setAttribute('alt', this.title)
     itemPhoto.addEventListener('click', () => openMediaModal(this))
-    itemPhoto.addEventListener('keydown', () => openMediaModal(this))
+
+    itemPhoto.addEventListener('keydown', function (event) {
+      if (event.code === 'Enter') {
+        return openMediaModal(this)
+      }
+    }, true)
     return itemPhoto
   }
 
@@ -75,7 +80,11 @@ class Video extends Media {
     const itemVideo = document.createElement('video')
     itemVideo.setAttribute('src', this.src)
     itemVideo.addEventListener('click', () => openMediaModal(this))
-    itemVideo.addEventListener('keydown', () => openMediaModal(this))
+    itemVideo.addEventListener('keydown', (event) => {
+      if (event.code === 'Enter') {
+        openMediaModal(this)
+      }
+    }, true)
     itemVideo.textContent = this.title
     return itemVideo
   }

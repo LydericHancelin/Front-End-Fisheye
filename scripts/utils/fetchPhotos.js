@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 async function getPhotos () {
-  // Penser à remplacer par les données récupérées dans le json
+  // On récupère l'ensemble des données du json pour le parcourir
   const response = await fetch('/data/photographers.json')
   if (!response.ok) {
     return []
@@ -8,7 +8,6 @@ async function getPhotos () {
 
   const body = await response.json()
   const photos = body.media
-  // et bien retourner le tableau photographers seulement une fois
   return photos
 }
 
