@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 async function getPhotos () {
   // On récupère l'ensemble des données du json pour le parcourir
-  const response = await fetch('/data/photographers.json')
+  const response = await fetch('photographers.json')
   if (!response.ok) {
     return []
   }
