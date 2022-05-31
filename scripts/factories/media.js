@@ -51,7 +51,7 @@ class Image extends Media {
     itemPhoto.setAttribute('alt', this.title)
     itemPhoto.addEventListener('click', () => openMediaModal(this))
 
-    itemPhoto.addEventListener('keydown', function (event) {
+    itemPhoto.addEventListener('keydown', (event) => {
       if (event.code === 'Enter') {
         return openMediaModal(this)
       }

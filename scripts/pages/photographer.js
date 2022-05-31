@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const photosIdLiked = []
@@ -10,9 +11,7 @@ function getPhotographerIdInParams () {
   return parseInt(id)
 }
 function createMediaObject (media) {
-  // eslint-disable-next-line no-extra-boolean-cast
   if (!!media.video) {
-    // eslint-disable-next-line no-undef
     return new Video(media)
   }
   return new Image(media)
@@ -58,6 +57,7 @@ function photographerPage (photographer) {
     return img
   }
 
+  // fonction qui crée et place dans une grid l'ensemble des méidas du photographe
   function getUserPictures (photos) {
     const grid = document.createElement('div')
     photos.forEach(photo => {
@@ -85,6 +85,7 @@ function photographerPage (photographer) {
     return grid
   }
 
+  // Cette fonction permet de remplir les données de l'encadré en bas à droite de la page du photographe
   function createPhotographerStats () {
     const divTotalLikes = document.createElement('div')
     divTotalLikes.classList.add('total-likes')
@@ -97,6 +98,7 @@ function photographerPage (photographer) {
     return divTotalLikes
   }
 
+  // Met à jour le total de likes de l'utilisateur
   async function updateUserTotalLikes (id, sum = 0) {
     const spanNbLikes = document.getElementById('total-likes')
     if (spanNbLikes) {
